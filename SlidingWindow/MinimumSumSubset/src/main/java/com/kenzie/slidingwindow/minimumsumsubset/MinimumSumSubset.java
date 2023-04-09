@@ -23,8 +23,23 @@ public class MinimumSumSubset {
      */
     public static int findMinimumSum(List<Integer> input, int k) {
         // TODO: Implement an algorithm that utilizes the sliding window technique
+        int windowSum = 0;
+        //calculate sum for first window
+        for(int i = 0; i < k; i++){
+            windowSum += input.get(i);
+        }
 
-        return -1;
+        int minSum = windowSum;
+
+        //check each window
+        for(int right = k; right < input.size(); right++){
+            windowSum -= input.get(right - k);
+            windowSum += input.get(right);
+
+            minSum = Math.min(minSum, windowSum);
+        }
+
+        return minSum;
     }
 
 }
