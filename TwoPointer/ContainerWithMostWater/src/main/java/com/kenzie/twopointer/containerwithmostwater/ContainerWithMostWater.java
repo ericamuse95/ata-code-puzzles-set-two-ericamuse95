@@ -25,6 +25,25 @@ public class ContainerWithMostWater {
      * @return the maximum area of water that can be contained by any two such vertical lines.
      */
     public static int maxArea(int[] height) {
-        return -1;
+        int start = 0;
+        int end = height.length-1; //pointer at the end
+        int maxArea = 0;
+
+        while(start < end){
+            //calculate water that can be held between the 2 vertical lines
+            int width = end - start;
+            int minimumHeight = Math.min(height[start], height[end]);
+            int area = width * minimumHeight;
+
+            maxArea = Math.max(maxArea, area);
+
+            //move pointer that is pointing to short line
+            if(height[start] < height[end]){
+                start++;
+            } else {
+                end--;
+            }
+        }
+        return maxArea;
     }
 }

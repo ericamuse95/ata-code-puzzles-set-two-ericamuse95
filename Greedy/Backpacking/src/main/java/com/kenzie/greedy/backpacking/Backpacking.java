@@ -1,5 +1,8 @@
 package com.kenzie.greedy.backpacking;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -23,6 +26,23 @@ public class Backpacking {
      */
     public static int getMaximumSnacks(List<Snack> snacks, int weightLimit) {
         // TODO: Implement an algorithm that utilizes the greedy technique
-        return -1;
+        //variable to store results
+        int results = 0;
+        //set weight variable to 0
+        int currentWeight = 0;
+
+        //sort snacks in descending order by weight
+        snacks.sort(Comparator.comparing(Snack::getWeight));
+
+        //iterate through data to determine if snack is feasible based on weight limit
+        for(Snack snack : snacks){
+            if(currentWeight + snack.getWeight() <= weightLimit){
+                currentWeight += snack.getWeight();
+                results++;
+            } else {
+                break;
+            }
+        }
+        return results;
     }
 }

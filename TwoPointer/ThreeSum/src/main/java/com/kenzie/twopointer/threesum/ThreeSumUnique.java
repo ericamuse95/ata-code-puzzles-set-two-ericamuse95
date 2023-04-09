@@ -1,5 +1,7 @@
 package com.kenzie.twopointer.threesum;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +21,28 @@ public class ThreeSumUnique {
      * @return all triplets that sum to 0
      */
     public static List<List<Integer>> threeSum(int[] nums) {
-        return Collections.emptyList();
+        Arrays.sort(nums);
+        List<List<Integer>> tripletsThatSumToZero = new ArrayList<>();
+        //loop through array up to the 3rd element
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            //start & end pointer
+            int start = i + 1, end = nums.length - 1;
+            while (start < end) {
+                int sum = nums[i] + nums[start] + nums[end];
+                if (sum == 0) {
+                    tripletsThatSumToZero.add(Arrays.asList(nums[i], nums[start], nums[end]));
+                    start++;
+                    end--;
+                    //skip duplicates
+                    while (start < end && nums[start] == nums[start - 1]) start++;
+                    while (start < end && nums[end] == nums[end + 1]) end--;
+                } else if (sum < 0) {
+                    start++;
+                } else {
+                    end--;
+                }
+            }
+        } return tripletsThatSumToZero;
     }
 }

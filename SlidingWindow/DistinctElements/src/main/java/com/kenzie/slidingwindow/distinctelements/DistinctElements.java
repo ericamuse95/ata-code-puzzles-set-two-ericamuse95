@@ -1,7 +1,6 @@
 package com.kenzie.slidingwindow.distinctelements;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Contains a problem that can be solved using the Sliding Window Technique.
@@ -25,8 +24,42 @@ public class DistinctElements {
      */
     public static List<Integer> countDistinctElements(List<Integer> input, int k) {
         // TODO: Implement an algorithm that utilizes the sliding window technique
+        List<Integer> result = new ArrayList<>();
 
-        return Collections.emptyList();
+        //store distinct elements in a list
+        List<Integer> distinctElements;
+
+        //track the frequency of each element in the current window
+        Map<Integer, Integer> frequencyOfElement = new HashMap<>();
+
+        //Initialize the map for the first window
+        for(int i =0; i < k; i++){
+            frequencyOfElement.put(input.get(i), frequencyOfElement.getOrDefault(input.get(i), 0) +1);
+        }
+        //calculate number of distinct elements in first window
+        result.add(frequencyOfElement.size());
+
+        //slide window over the rest of the list
+        for(int i = k; i < input.size(); i++){
+            int previous = input.get(i -k);
+            int current = input.get(i);
+
+            //decrement dropped value
+            frequencyOfElement.put(previous, frequencyOfElement.get(previous) - 1);
+
+            //if element is no longer present in window, remove it from frequencyOfElement
+            if(frequencyOfElement.get(previous) == 0){
+                frequencyOfElement.remove(previous);
+            }
+
+            //increment the frequency of the new element in the window
+            frequencyOfElement.put(current, frequencyOfElement.getOrDefault(current, 0) + 1);
+
+            //calculate number of distinct elements in the current window and add it to "reult"
+            result.add(frequencyOfElement.size());
+        }
+
+        return result;
     }
 
 }
